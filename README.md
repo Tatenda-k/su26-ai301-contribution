@@ -1,15 +1,15 @@
-# Contribution [#]: [Issue Title]
+# Contribution [#1799]: [ Deserialization optimization, instead of discarding fields, puts non-existent fields into a specified field.
+]
 
-**Contribution Number:** [1 / 2 / 3]  
-**Student:** [Your Name]  
-**Issue:** [GitHub issue link]  
-**Status:** [Phase I / Phase II / Phase III / Phase IV] [In Progress / Complete]
+**Contribution Number:** [1 ]  
+**Student:** [Tatenda Sekabanja]  
+**Issue:** [https://github.com/apache/fory/issues/1799]  
+**Status:** [Phase I ] [In Progress]
 
 ---
 
 ## Why I Chose This Issue
-
-[1-2 paragraphs explaining why this issue interests you, how it matches your skills/learning goals, what you hope to learn]
+I would love to do something outside my normal area of web development. I have a lot of experience working with Java in a large codebase so I am confident I can take this on. I'm interested in making programming languages better/ programming easier for developers, and hope to apply and improve my software architecture skills. I actually ran into a serialization problem last year when working on a chat app.
 
 ---
 
