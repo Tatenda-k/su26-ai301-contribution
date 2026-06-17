@@ -17,15 +17,15 @@ I would love to do something outside my normal area of web development. I have a
 
 ### Problem Description
 
-[In your own words, what's broken or missing?]
+The root cause is in the compatible deserialization path. When a remote TypeDef contains fields that the local class does not have, CompatibleCodecBuilder currently ignores those fields. The matching logic is in CompatibleCodecBuilder.setFieldValue(...): if descriptor.getField() == null, the builder drops the value instead of preserving it. That means the downstream object loses unknown upstream attributes during deserialization.
 
 ### Expected Behavior
 
-[What should happen?]
+Preserve unknown fields
 
 ### Current Behavior
 
-[What actually happens?]
+Unknown fields are ignored
 
 ### Affected Components
 
@@ -37,11 +37,11 @@ I would love to do something outside my normal area of web development. I have a
 
 ### Environment Setup
 
-[Notes on setting up your local development environment - challenges you faced, how you solved them]
+Install maven, java, gradle
 
 ### Steps to Reproduce
 
-1. [Step 1]
+1. Write a test with a mismatch in upstream and downstream fields
 2. [Step 2]
 3. [Observed result]
 
@@ -54,29 +54,31 @@ I would love to do something outside my normal area of web development. I have a
 ---
 
 ## Solution Approach
+store the 'extra' fields and use them later in serialization
+
 
 ### Analysis
 
-[Your analysis of the root cause - what's causing the issue?]
-
+the builder drops the value instead of preserving it. 
 ### Proposed Solution
-
-[High-level description of your fix approach]
-
+Capture unmapped remote fields into a separate object and store them. Use this object during deserialization
 ### Implementation Plan
 
 Using UMPIRE framework (adapted):
 
-**Understand:** [Restate the problem]
+**Understand:** The problem is schema-mismatch compatibility: when a producer with 10 fields sends data to a consumer with 9 fields, the 9th upstream field should be preserved in a container and re-emitted if the consumer serializes again, rather than being dropped.
 
-**Match:** [What similar patterns/solutions exist in the codebase?]
+**Match:** Existing compatibility paths: TypeResolver.buildMetaSharedTypeInfo() → CompatibleCodecBuilder → generated CompatibleSerializer.
+Existing field mapping: CompatibleCodecBuilder.buildRemoteFieldInfos() and buildLocalFieldInfosByRemoteOrder() already compare remote and local descriptors.
+Existing dispatch: TypeResolver already chooses compatible vs. local serializers on read; we extend it on write.
 
 **Plan:** [Step-by-step implementation plan]
-1. [Modify file X to do Y]
-2. [Add function Z]
-3. [Update tests]
+1. create foryextrafields class
+2. modify desirialization - check if there is an unmapped remote field and initialize foryextrafields
+3. modify serialization dispatch - if foryextrafields is present, then get corresponding typeInfo , and forward the write to the compatible serializer
+4. 
 
-**Implement:** [Link to your branch/commits as you work]
+**Implement:** [Link to your brWanch/commits as you work]
 
 **Review:** [Self-review checklist - does it follow the project's contribution guidelines?]
 
