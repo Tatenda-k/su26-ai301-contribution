@@ -90,9 +90,9 @@ Existing dispatch: TypeResolver already chooses compatible vs. local serializers
 
 ### Unit Tests
 
-- [ ] Test case 1: [Description]
-- [ ] Test case 2: [Description]
-- [ ] Test case 3: [Description]
+Round-trip test — Verify that unknown fields are preserved instead of lost.
+Reference-sharing test — Verify that object identity is preserved between local and captured fields.
+Zero-overhead test — Verify that classes without a capture sink maintain the same serialization behavior as before.
 
 ### Integration Tests
 
@@ -107,9 +107,9 @@ Existing dispatch: TypeResolver already chooses compatible vs. local serializers
 
 ## Implementation Notes
 
-### Week [X] Progress
+### Week [1] Progress
 
-[What you built this week, challenges faced, decisions made]
+Working on adding the foryextrafields class and incorporating it with the serializers.
 
 ### Week [Y] Progress
 
@@ -117,9 +117,9 @@ Existing dispatch: TypeResolver already chooses compatible vs. local serializers
 
 ### Code Changes
 
-- **Files modified:** [List]
-- **Key commits:** [Links to important commits]
-- **Approach decisions:** [Why you chose certain approaches]
+- **Files modified:** CompatibleCodecBuilder.java, WriteContext.Java,TypeResolver.java,CompatibleSerializer.java,FieldSkipper.java,ForyExtraFields.java,StaticGeneratedStructSerializer.java,SchEemaEvolutionTest.java
+- **Key commits:** In progress 
+- **Approach decisions:** I wanted to keep the typeresolver logic intact, and avoid modifying existing code.
 
 ---
 
